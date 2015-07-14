@@ -16,5 +16,18 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
         v.customize ["modifyvm", :id, "--vram", "8"]
     end
     
-    config.vm.provision "shell", inline: "sudo apt-get -y update"
+    #PROVISION
+    ## hello world
+#    config.vm.provision "shell" do |s|
+#        s.inline = "echo hello"
+#    end
+    
+    config.vm.synced_folder ".", "/vagrant", type: "rsync",
+        rsync__exclude: ".git/",
+        owner: "root", group: "root"
+    
+    
+    config.vm.network :forwarded_port, guest: 80, host: 4567
+    
+#    config.vm.provision "shell", inline: "sudo apt-get -y update"
 end
